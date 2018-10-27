@@ -1,0 +1,16 @@
+<mat-accordion multi='true' *ngIf='posts && posts.length'>
+  <mat-expansion-panel *ngFor='let post of posts'>
+    <mat-expansion-panel-header>
+      {{post.title}}
+    </mat-expansion-panel-header>
+    <p>{{post.content}}</p>
+    <mat-action-row>
+      <button mat-raised-button mat-button color='accent'>EDIT</button>
+      <button mat-raised-button mat-button color='warn'>REMOVE</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>
+<mat-chip-list>
+    <mat-chip selected='true' *ngIf='!posts || !posts.length' color='primary'>No posts available!</mat-chip>
+</mat-chip-list>
+
