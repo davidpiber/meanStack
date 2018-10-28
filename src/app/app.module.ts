@@ -8,6 +8,7 @@ import { MatInputModule,
          MatToolbarModule,
          MatExpansionModule,
          MatChipsModule } from '@angular/material';
+import { HttpClientModule } from '@angular/common/http';
 
 // App Components
 import { AppComponent } from './app.component';
@@ -31,7 +32,8 @@ import { PostListComponent } from './posts/post-list/post-list.component';
     MatButtonModule,
     MatToolbarModule,
     MatExpansionModule,
-    MatChipsModule
+    MatChipsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
