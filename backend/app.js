@@ -39,7 +39,7 @@ app.post('/posts', (req, res) => {
 app.get('/posts', async (req, res, next) => {
   try {
     const posts = await Post.find();
-    res.status(200).json(posts);
+    res.status(200).json({ posts });
   } catch (error) {
     console.log(error);
   }
