@@ -32,10 +32,7 @@ app.post(POST_API, (req, res) => {
   const { title, content } = req.body;
   const post = new Post({ title, content });
   post.save();
-  res.status(201).json({
-    message: 'post added successfully',
-    postId: post._id
-  });
+  res.status(201).json({ postId: post._id });
 });
 
 app.get(POST_API, async (req, res, next) => {

@@ -28,7 +28,7 @@ export class PostsService {
   }
   addPost(title: string, content: string) {
     const post: Post = { id: null, title, content };
-    this.http.post<{ message: string, postId: string }>(FULL_POSTS_URL, post)
+    this.http.post<{ postId: string }>(FULL_POSTS_URL, post)
       .subscribe((response) => {
         post.id = response.postId;
         this.posts.push(post);
