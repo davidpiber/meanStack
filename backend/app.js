@@ -13,6 +13,7 @@ mongoose.connect(CONNECTION_STRING).then(() => {
 
 // Post model
 const Post = require('./models/post');
+const POST_API = '/api/posts';
 
 const app = express();
 app.use(bodyParser.json());
@@ -27,19 +28,29 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post('/posts', (req, res) => {
+app.post(POST_API, (req, res) => {
   const { title, content } = req.body;
   const post = new Post({ title, content });
   post.save();
   res.status(201).json({
-    message: 'post added successfully'
+    message: 'post added successfully',
+    postId: post._id
   });
 });
 
-app.get('/posts', async (req, res, next) => {
+app.get(POST_API, async (req, res, next) => {
   try {
     const posts = await Post.find();
     res.status(200).json({ posts });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.delete(`${POST_API}/:id`, async (req, res, next) => {
+  try {
+    const post = await Post.deleteOne({_id: req.params.id});
+    res.status(200).json({ message: 'post deleted', post });
   } catch (error) {
     console.log(error);
   }
