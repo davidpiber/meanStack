@@ -28,11 +28,15 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post(POST_API, (req, res) => {
-  const { title, content } = req.body;
-  const post = new Post({ title, content });
-  post.save();
+app.post(POST_API, async (req, res) => {
+  try {
+    const { title, content } = req.body;
+    const post = new Post({ title, content });
+    await post.save();
   res.status(201).json({ postId: post._id });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 app.get(POST_API, async (req, res, next) => {
@@ -47,7 +51,17 @@ app.get(POST_API, async (req, res, next) => {
 app.delete(`${POST_API}/:id`, async (req, res, next) => {
   try {
     const post = await Post.deleteOne({_id: req.params.id});
-    res.status(200).json({ message: 'post deleted', post });
+    res.status(200).json({ post });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.put(POST_API, async (req, res, next) => {
+  try {
+    const { id, title, content } = req.body;
+    const post = await Post.update(id, { title, content });
+    res.status(200).json( post );
   } catch (error) {
     console.log(error);
   }
