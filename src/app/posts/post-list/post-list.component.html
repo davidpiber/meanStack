@@ -12,6 +12,6 @@
   </mat-expansion-panel>
 </mat-accordion>
 <mat-chip-list>
-    <mat-chip selected='true' *ngIf='posts.length <= 0 && !isLoading' color='primary'>No posts available!</mat-chip>
+    <mat-chip selected='true' *ngIf='(posts && posts.length <= 0) && !isLoading' color='primary'>No posts available!</mat-chip>
 </mat-chip-list>
 
