@@ -1,12 +1,12 @@
 <h2>Create a Post</h2>
 <mat-card>
-  <form (submit)='onAddPost(postForm)' #postForm='ngForm'>
+  <form (submit)='onSavePost(postForm)' #postForm='ngForm'>
       <mat-form-field>
-          <input type="text" name='title' matInput [ngModel]='post.title' required #title='ngModel' placeholder="Post Title">
+          <input type="text" name='title' matInput [ngModel]='post?.title' required #title='ngModel' placeholder="Post Title">
           <mat-error *ngIf="title.invalid">Please enter a post title.</mat-error>
       </mat-form-field>
       <mat-form-field>
-        <textarea name= 'content' matInput [ngModel]='post.content' rows="6" required #content='ngModel' placeholder="Post Content"></textarea>
+        <textarea name= 'content' matInput [ngModel]='post?.content' rows="6" required #content='ngModel' placeholder="Post Content"></textarea>
         <mat-error *ngIf="content.invalid">Please enter a post content.</mat-error>
       </mat-form-field>
       <button type="submit" color='primary' mat-raised-button>Create Post</button>

@@ -46,6 +46,14 @@ export class PostsService {
 
   updatePost(id: string, title: string, content: string) {
     const post: Post = { id, title, content };
+    this.http.put(`${FULL_POSTS_URL}/${id}`, post)
+    .subscribe((response) => {
+        const updatedPosts = [...this.posts];
+        const oldPostIndex = updatedPosts.findIndex((p) => p.id === post.id);
+        updatedPosts[oldPostIndex] = post;
+        this.posts = updatedPosts;
+        this.postsUpdated.next([...this.posts]);
+      });
   }
 
   getPostUpdateListener() {
@@ -53,6 +61,6 @@ export class PostsService {
   }
 
   getPost(id: string) {
-    return { ...this.posts.find((post) => post.id === id) };
+    return this.http.get<{_id: string, title: string, content: string}>(`${FULL_POSTS_URL}/${id}`);
   }
 }
