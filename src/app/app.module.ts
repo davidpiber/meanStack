@@ -7,7 +7,8 @@ import { MatInputModule,
          MatButtonModule,
          MatToolbarModule,
          MatExpansionModule,
-         MatChipsModule } from '@angular/material';
+         MatChipsModule,
+         MatProgressSpinnerModule} from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 
 // App Components
@@ -35,6 +36,7 @@ import { AppRoutingModule } from './app-routing.module';
     MatToolbarModule,
     MatExpansionModule,
     MatChipsModule,
+    MatProgressSpinnerModule,
     HttpClientModule
   ],
   providers: [],
