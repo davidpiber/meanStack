@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { PostsService } from '../post.service';
 import { Post } from '../post.model';
@@ -12,14 +12,25 @@ import { Post } from '../post.model';
 
 export class PostCreateComponent implements OnInit {
 
+  enteredTitle = '';
+  enteredContent = '';
+  post: Post;
+  isLoading = false;
+  form: FormGroup;
   private mode = 'create';
   private postId: string;
-  isLoading = false;
-  post: Post;
 
   constructor(public postsService: PostsService, public route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.form = new FormGroup({
+      title: new FormControl(null, {
+        validators: [Validators.required, Validators.minLength(3)]
+      }),
+      content: new FormControl(null, {
+        validators: [Validators.required]
+      })
+    });
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('postId')) {
         this.mode = 'edit';
@@ -28,6 +39,10 @@ export class PostCreateComponent implements OnInit {
         this.postsService.getPost(this.postId).subscribe(postData => {
           this.isLoading = false;
           this.post = { id: postData._id, title: postData.title, content: postData.content };
+          this.form.setValue({
+            title: this.post.title,
+            content: this.post.content
+          });
         });
       } else {
         this.mode = 'create';
@@ -37,18 +52,18 @@ export class PostCreateComponent implements OnInit {
 
   }
 
-  onSavePost(form: NgForm) {
-    const {invalid, value : { title, content } } = form;
-    this.isLoading = true;
+  onSavePost() {
+    const { invalid, value : { title, content } } = this.form;
     if (invalid) {
       return;
     }
+    this.isLoading = true;
     if (this.mode === 'create') {
       this.postsService.addPost(title, content);
     } else {
       this.postsService.updatePost(this.postId, title, content);
     }
-    form.resetForm();
+    this.form.reset();
   }
 
 }
