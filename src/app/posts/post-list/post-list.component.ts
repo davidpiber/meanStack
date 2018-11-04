@@ -19,7 +19,7 @@ export class PostListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoading = true;
-    this.posts = this.postService.getPosts();
+    this.postService.getPosts();
     this.postsSub = this.postService.getPostUpdateListener()
       .subscribe((posts) => {
         this.isLoading = false;
@@ -32,7 +32,7 @@ export class PostListComponent implements OnInit, OnDestroy {
   }
 
   onDelete(id: string) {
-    this.posts = this.postService.deletePost(id);
+    this.postService.deletePost(id);
     this.postsSub = this.postService.getPostUpdateListener()
       .subscribe((posts) => {
         this.posts = posts;
