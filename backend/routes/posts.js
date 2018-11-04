@@ -8,7 +8,7 @@ const VALID_IMAGE_TYPES = {
 };
 
 const router = express.Router();
-const imageStorage = multer.diskStorage({
+const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const isValid = VALID_IMAGE_TYPES[file.mimetype];
     let error = new Error('Invalid image type');
@@ -18,7 +18,7 @@ const imageStorage = multer.diskStorage({
     cb(error, 'backend/images')
    },
    filename: (req, file, cb) => {
-    const name = file.originalname.toLowerCase().join('-');
+    const name = file.originalname.toLowerCase().split(' ').join('-');
     const ext = VALID_IMAGE_TYPES[file.mimetype];
     cb(null, `${name}-${Date.now()}.${ext}`);
    }
@@ -27,7 +27,7 @@ const imageStorage = multer.diskStorage({
 // Post model
 const Post = require('../models/post');
 
-router.post('', multer(imageStorage).single('image'), async (req, res) => {
+router.post('', multer({ storage }).single('image'), async (req, res) => {
   try {
     const { title, content } = req.body;
     const post = new Post({ title, content });
