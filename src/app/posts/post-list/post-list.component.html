@@ -14,6 +14,11 @@
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
+<mat-paginator
+  [length]='totalPosts'
+  [pageSize]='postsPerPage'
+  [pageSizeOptions]='pageSizeOptions'
+  (page)='onChangedPage($event)'></mat-paginator>
 <mat-chip-list>
     <mat-chip selected='true' *ngIf='(posts && posts.length <= 0) && !isLoading' color='primary'>No posts available!</mat-chip>
 </mat-chip-list>
