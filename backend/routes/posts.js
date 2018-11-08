@@ -9,11 +9,11 @@ const VALID_IMAGE_TYPES = {
 
 const withOnly = (keys, object) => {
   let result = {};
-  for (const key in object) {
-    if (keys.includes(key)) {
-      result[key] = object[key];
-    }
-  }
+  keys.forEach((prop) => {
+		if (object.hasOwnProperty(prop)) {
+			result[prop] = object[prop];
+		}
+	});
   return result;
 }
 
@@ -50,10 +50,21 @@ router.post('', multer({ storage }).single('image'), async (req, res) => {
   }
 });
 
-router.get('', async (req, res, next) => {
+router.get('', (req, res, next) => {
   try {
-    const posts = await Post.find();
-    res.status(200).json({ posts });
+    const page = Number(req.query.page);
+    const pageSize = Number(req.query.pageSize);
+    const postQuery = Post.find();
+    let fetchedPosts;
+    if (page && pageSize) {
+      postQuery.skip(pageSize * (page - 1)).limit(pageSize);
+    }
+    postQuery.then(posts => {
+      fetchedPosts = posts;
+      return Post.count();
+    }).then((count) => {
+      res.status(200).json({ posts: fetchedPosts, maxPosts: count });
+    });
   } catch (error) {
     console.log(error);
   }

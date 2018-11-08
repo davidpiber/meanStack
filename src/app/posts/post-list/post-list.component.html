@@ -18,7 +18,8 @@
   [length]='totalPosts'
   [pageSize]='postsPerPage'
   [pageSizeOptions]='pageSizeOptions'
-  (page)='onChangedPage($event)'></mat-paginator>
+  (page)='onChangedPage($event)'
+  *ngIf='posts && posts.length'></mat-paginator>
 <mat-chip-list>
     <mat-chip selected='true' *ngIf='(posts && posts.length <= 0) && !isLoading' color='primary'>No posts available!</mat-chip>
 </mat-chip-list>
