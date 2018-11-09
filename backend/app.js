@@ -9,7 +9,7 @@ const MONGO_USER = 'dbermudez';
 const MONGO_PASS = 'O2VrpbTX3MZjkqzs';
 const CONNECTION_STRING = `mongodb+srv://${MONGO_USER}:${MONGO_PASS}@cluster0-noxkx.mongodb.net/test?retryWrites=true`;
 
-mongoose.connect(CONNECTION_STRING).then(() => {
+mongoose.connect(CONNECTION_STRING, { useNewUrlParser: true }).then(() => {
   console.log('Connected to database!');
 }).catch(() => {
   console.log('Connection failed');
