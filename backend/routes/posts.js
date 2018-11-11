@@ -47,6 +47,7 @@ router.post('', multer({ storage }).single('image'), async (req, res) => {
     res.status(201).json({ post: { id: post._id, ...filteredPost } });
   } catch (error) {
     console.log(error);
+    res.status(500).json({ error });
   }
 });
 
