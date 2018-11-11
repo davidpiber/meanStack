@@ -47,7 +47,7 @@ router.post('', multer({ storage }).single('image'), async (req, res) => {
     res.status(201).json({ post: { id: post._id, ...filteredPost } });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error });
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -68,6 +68,7 @@ router.get('', (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -86,6 +87,7 @@ router.delete('/:id', async (req, res, next) => {
     res.status(200).json({ post });
   } catch (error) {
     console.log(error);
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -101,6 +103,7 @@ router.put('/:id', multer({ storage }).single('image'), async (req, res, next) =
     res.status(200).json( { post } );
   } catch (error) {
     console.log(error);
+    res.status(500).json({ error: error.message });
   }
 });
 
