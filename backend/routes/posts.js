@@ -1,5 +1,6 @@
 const express = require('express');
 const multer = require('multer');
+const checkAuth = require('../middleware/checkAuth');
 
 const VALID_IMAGE_TYPES = {
   'image/png': 'png',
@@ -37,7 +38,7 @@ const storage = multer.diskStorage({
 // Post model
 const Post = require('../models/post');
 
-router.post('', multer({ storage }).single('image'), async (req, res) => {
+router.post('', checkAuth, multer({ storage }).single('image'), async (req, res) => {
   try {
     const url = `${req.protocol}://${req.get('host')}`;
     const { title, content } = req.body;
@@ -51,7 +52,7 @@ router.post('', multer({ storage }).single('image'), async (req, res) => {
   }
 });
 
-router.get('', (req, res, next) => {
+router.get('', checkAuth, (req, res, next) => {
   try {
     const page = Number(req.query.page);
     const pageSize = Number(req.query.pageSize);
@@ -72,7 +73,7 @@ router.get('', (req, res, next) => {
   }
 });
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', checkAuth, async (req, res, next) => {
   try {
     const post = await Post.findById(req.params.id);
     res.status(200).json(post);
@@ -81,7 +82,7 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', checkAuth, async (req, res, next) => {
   try {
     const post = await Post.deleteOne({_id: req.params.id});
     res.status(200).json({ post });
@@ -91,7 +92,7 @@ router.delete('/:id', async (req, res, next) => {
   }
 });
 
-router.put('/:id', multer({ storage }).single('image'), async (req, res, next) => {
+router.put('/:id', checkAuth, multer({ storage }).single('image'), async (req, res, next) => {
   try {
     const { title, content, imagePath } = req.body;
     let path = imagePath;

@@ -9,7 +9,12 @@ const FULL_POSTS_URL = `${MAIN_URL}${USERS_API}`;
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  private authToken: string;
   constructor(private http: HttpClient) {}
+
+  getToken() {
+    return this.authToken;
+  }
 
   createUser(email: string, password: string) {
     const authData: AuthData = { email, password };
@@ -20,8 +25,9 @@ export class AuthService {
 
   login(email: string, password: string) {
     const authData: AuthData = { email, password };
-    this.http.post(`${FULL_POSTS_URL}/login`, authData).subscribe(response => {
-      console.log(response);
+    this.http.post<{token: string}>(`${FULL_POSTS_URL}/login`, authData).subscribe(response => {
+      const token = response.token;
+      this.authToken = token;
     });
   }
 }
