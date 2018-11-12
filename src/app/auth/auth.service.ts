@@ -17,4 +17,11 @@ export class AuthService {
       console.log(response);
     });
   }
+
+  login(email: string, password: string) {
+    const authData: AuthData = { email, password };
+    this.http.post(`${FULL_POSTS_URL}/login`, authData).subscribe(response => {
+      console.log(response);
+    });
+  }
 }

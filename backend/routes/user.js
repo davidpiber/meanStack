@@ -22,15 +22,15 @@ router.post('/signup', (req, res) => {
     });
 });
 
-router.post('/login', (req, res) => {
-  const { email, password } = req.body;
-  User.find({ email }).then(user => {
+router.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user  = await User.findOne({ email });
     if (!user) {
-      res.status(401).json({ message: 'Auth failed' });
+      return res.status(401).json({ message: 'Auth failed' });
     }
-    return bcrypt.compare(password, user.password)
-  }).then(result => {
-    if (!result) {
+    const passCompareResult = await bcrypt.compare(password, user.password);
+    if (!passCompareResult) {
       return res.status(401).json({ message: 'Auth failed' });
     }
     const token = jwt.sign(
@@ -39,9 +39,10 @@ router.post('/login', (req, res) => {
       { expiresIn: '1h' }
     );
     res.status(200).json({ token });
-  }).catch(err => {
-    return res.status(500).json({ error: err });
-  });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: error.message });
+  }
 });
 
 module.exports = router;
