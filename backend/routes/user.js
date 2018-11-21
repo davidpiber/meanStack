@@ -37,7 +37,7 @@ router.post('/login', async (req, res) => {
       TOKEN_SECRET,
       { expiresIn: '1h' }
     );
-    res.status(200).json({ token, expiresIn: 3600 });
+    res.status(200).json({ token, expiresIn: 3600, userId: user._id });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: error.message });

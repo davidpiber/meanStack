@@ -5,7 +5,14 @@ import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
-const mapPost = (post) => ({ title: post.title, content: post.content, id: post._id, imagePath: post.imagePath });
+const mapPost = (post) => ({
+  title: post.title,
+  content: post.content,
+  id: post._id,
+  imagePath: post.imagePath,
+  creator: post.creator
+});
+
 const MAIN_URL = 'http://localhost:3000';
 const POSTS_API = '/api/posts';
 const FULL_POSTS_URL = `${MAIN_URL}${POSTS_API}`;
@@ -56,7 +63,8 @@ export class PostsService {
         id,
         title,
         content,
-        imagePath: image
+        imagePath: image,
+        creator: null
       };
     }
     this.http.put<{ post: Post }>(`${FULL_POSTS_URL}/${id}`, postData)
@@ -68,6 +76,6 @@ export class PostsService {
   }
 
   getPost(id: string) {
-    return this.http.get<{_id: string, title: string, content: string, imagePath: string}>(`${FULL_POSTS_URL}/${id}`);
+    return this.http.get<{_id: string, title: string, content: string, imagePath: string, creator: string}>(`${FULL_POSTS_URL}/${id}`);
   }
 }
