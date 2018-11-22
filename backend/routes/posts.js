@@ -51,8 +51,7 @@ router.post('', checkAuth, multer({ storage }).single('image'), async (req, res)
     const filteredPost = withOnly(['title', 'content'], post);
     res.status(201).json({ post: { id: post._id, ...filteredPost } });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: 'Error creating post.' });
   }
 });
 
@@ -72,8 +71,7 @@ router.get('', (req, res, next) => {
       res.status(200).json({ posts: fetchedPosts, maxPosts: count });
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: 'Error getting posts' });
   }
 });
 
@@ -82,7 +80,7 @@ router.get('/:id', checkAuth, async (req, res, next) => {
     const post = await Post.findById(req.params.id);
     res.status(200).json(post);
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: 'Error getting post' });
   }
 });
 
@@ -95,8 +93,7 @@ router.delete('/:id', checkAuth, async (req, res, next) => {
       res.status(401).json({ messsage: 'Not Authorized' });
     }
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: 'Error deleting posts' });
   }
 });
 
@@ -109,15 +106,13 @@ router.put('/:id', checkAuth, multer({ storage }).single('image'), async (req, r
       path = `${url}/images/${req.file.filename}`;
     }
     const post = await Post.updateOne( { _id: req.params.id, creator: req.userData.userId }, { title, content, imagePath: path, creator: req.userData.userId });
-    console.log(post);
     if (post.nModified > 0) {
       res.status(200).json({ messsage: 'Update successfull' });
     } else {
       res.status(401).json({ messsage: 'Not Authorized' });
     }
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: 'Error updating post' });
   }
 });
 

@@ -16,7 +16,7 @@ router.post('/signup', (req, res) => {
       user.save().then(result => {
         res.status(201).json({ user: result });
       }).catch(err => {
-        res.status(500).json({ error: err });
+        res.status(500).json({ message: 'Invalid authentication credentials' });
       });
     });
 });
@@ -40,7 +40,7 @@ router.post('/login', async (req, res) => {
     res.status(200).json({ token, expiresIn: 3600, userId: user._id });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: 'Error Loggin In' });
   }
 });
 
