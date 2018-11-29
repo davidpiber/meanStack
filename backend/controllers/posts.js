@@ -80,7 +80,7 @@ exports.editById = async (req, res) => {
       path = `${url}/images/${req.file.filename}`;
     }
     const post = await Post.updateOne( { _id: req.params.id, creator: req.userData.userId }, { title, content, imagePath: path, creator: req.userData.userId });
-    if (post.nModified > 0) {
+    if (post.n > 0) {
       res.status(200).json({ messsage: 'Update successfull' });
     } else {
       res.status(401).json({ messsage: 'Not Authorized' });
