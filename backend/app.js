@@ -6,9 +6,7 @@ const mongoose = require('mongoose');
 const postRoutes = require('./routes/posts');
 const userRoutes = require('./routes/user');
 
-const MONGO_USER = 'dbermudez';
-const MONGO_PASS = 'O2VrpbTX3MZjkqzs';
-const CONNECTION_STRING = `mongodb+srv://${MONGO_USER}:${MONGO_PASS}@cluster0-noxkx.mongodb.net/test?retryWrites=true`;
+const CONNECTION_STRING = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0-noxkx.mongodb.net/test?retryWrites=true`;
 
 mongoose.connect(CONNECTION_STRING, { useNewUrlParser: true }).then(() => {
   console.log('Connected to database!');
