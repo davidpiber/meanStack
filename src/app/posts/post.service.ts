@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 const mapPost = (post) => ({
   title: post.title,
@@ -13,9 +14,8 @@ const mapPost = (post) => ({
   creator: post.creator
 });
 
-const MAIN_URL = 'http://localhost:3000';
-const POSTS_API = '/api/posts';
-const FULL_POSTS_URL = `${MAIN_URL}${POSTS_API}`;
+const POSTS_API = '/posts';
+const FULL_POSTS_URL = `${environment.apiUrl}${POSTS_API}`;
 
 @Injectable({ providedIn: 'root' })
 export class PostsService {

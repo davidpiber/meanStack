@@ -3,11 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthData } from './signUp/auth.data.model';
+import { environment } from '../../environments/environment';
 
-
-const MAIN_URL = 'http://localhost:3000';
-const USERS_API = '/api/users';
-const FULL_POSTS_URL = `${MAIN_URL}${USERS_API}`;
+const USERS_API = '/users';
+const FULL_POSTS_URL = `${environment.apiUrl}${USERS_API}`;
 const TOKEN = 'token';
 const EXPIRATION = 'expiration';
 const USER_ID = 'userId';
