@@ -6,7 +6,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 // App Components
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { AppRoutingModule } from './app-routing.module';
+import { AuthRoutingModule } from './app-routing.module';
 
 // Interceptors
 import { AuthInterceptor } from './auth/auth.interceptor';
@@ -19,9 +19,6 @@ import { AngularMaterialModule } from './angular-material.module';
 // Posts module
 import { PostsModule } from './posts/posts.module';
 
-// Auth module
-import { AuthModule } from './auth/auth.module';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,12 +27,11 @@ import { AuthModule } from './auth/auth.module';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
+    AuthRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
     AngularMaterialModule,
-    PostsModule,
-    AuthModule
+    PostsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
